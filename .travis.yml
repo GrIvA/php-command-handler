@@ -3,11 +3,11 @@ language: php
 php:
   - 5.6
   - 5.5
+  - 5.4
 
 before_script:
   - composer self-update
   - composer install -n --prefer-dist
-  - php vendor/codeception/codeception/codecept bootstrap
   - php vendor/codeception/codeception/codecept build
 
 script:
