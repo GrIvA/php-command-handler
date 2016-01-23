@@ -1,6 +1,6 @@
 _data
 _log
-_helpers
+_helpers/*
 acceptance
 functional
 acceptance.suite.yml
