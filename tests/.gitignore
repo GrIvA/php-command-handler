@@ -1,8 +1,0 @@
-_data
-_log
-_helpers/*
-acceptance
-functional
-acceptance.suite.yml
-functional.suite.yml
-unit/UnitTester.php
