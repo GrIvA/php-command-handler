@@ -13,9 +13,7 @@
             "CommandHandler\\": "CommandHandler/"
         }
     },
-    "require": {
-        "php": "^5.4"
-    },
+    "require": {},
     "require-dev": {
         "codeception/codeception": "^2.1"
     }
