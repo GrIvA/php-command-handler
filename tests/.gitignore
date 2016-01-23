@@ -1,6 +1,6 @@
 _output/*
-_data/
-_envs/
+_data/*
+_envs/*
 _support/*
 acceptance
 functional
