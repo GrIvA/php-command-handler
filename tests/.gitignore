@@ -1,0 +1,8 @@
+_output/*
+_data/
+_envs/
+_support/*
+acceptance
+functional
+acceptance.suite.yml
+functional.suite.yml
