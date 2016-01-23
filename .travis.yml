@@ -7,7 +7,8 @@ php:
 
 before_script:
   - composer self-update
-  - composer install -n --prefer-dist
+  - composer install
+  - php vendor/codeception/codeception/codecept bootstrap
   - php vendor/codeception/codeception/codecept build
 
 script:
