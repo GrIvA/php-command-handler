@@ -46,10 +46,9 @@ class HandlerTest extends \Codeception\TestCase\Test
             $handler->add('first', function () {});
             $handler->add('second', function () {});
 
-            $handler->group('inner_group/', function () use ($handler) {
-
+            $handler->group('inner_group/', function () use ($handler)
+            {
                 $handler->add('third', function () {});
-
             });
 
         });

@@ -23,6 +23,9 @@ class Handler
             throw new \InvalidArgumentException('Group callback should be callable');
         }
         array_push($this->group, $path);
+        if ($callback instanceof \Closure) {
+            $callback = $callback->bindTo($this);
+        }
         call_user_func_array($callback, []);
         array_pop($this->group);
     }
