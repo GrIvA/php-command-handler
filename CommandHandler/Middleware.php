@@ -17,7 +17,8 @@ class Middleware
      */
     public static function create($name, $middleware)
     {
-        if (empty(self::callbackFilter([$middleware]))) {
+        $filtered = self::callbackFilter([$middleware]);
+        if (empty($filtered)) {
             throw new \InvalidArgumentException('Middleware should be callable');
         }
         self::$middleware[$name] = $middleware;
