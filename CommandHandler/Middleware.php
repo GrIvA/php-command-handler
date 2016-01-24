@@ -8,10 +8,16 @@ class Middleware
     private $before = [];
     private $after = [];
 
-    public function __construct($before, $after)
+    public function __construct(array $before, array $after)
     {
         $this->before = $this->callbackFilter($before);
         $this->after = $this->callbackFilter($after);
+    }
+
+    public function add(array $before, array $after)
+    {
+        $this->addBefore($before);
+        $this->addAfter($after);
     }
 
     public function addBefore()
@@ -43,7 +49,7 @@ class Middleware
     private function call(array $list, $result = null)
     {
         foreach ($list as $item) {
-            $result = call_user_func_array($item, [$item]);
+            $result = call_user_func_array($item, [$result]);
             if ($result === false) {
                 return false;
             }

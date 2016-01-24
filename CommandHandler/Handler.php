@@ -12,6 +12,29 @@ class Handler
     private $requests = [];
     private $group = [];
 
+    private $middleware;
+
+    /**
+     * Add a middleware for a group/command
+     * @param array $before list of middleware than will be execute before the command
+     * @param \Closure $declaration group and command initialization
+     * @param array $after list of middleware than will be execute after the command
+     */
+    public function middleware($before = [], \Closure $declaration, $after = [])
+    {
+        $current_middleware = $this->middleware;
+        if (!$current_middleware instanceof Middleware) {
+            $this->middleware = new Middleware($before, $after);
+        } else {
+            $this->middleware = clone $current_middleware;
+            $this->middleware->add($before, $after);
+        }
+        call_user_func_array($declaration, []);
+        $this->middleware = $current_middleware != $this->middleware
+            ? $current_middleware
+            : null;
+    }
+
     /**
      * Add new command group
      * @param string $path command group name
@@ -40,7 +63,10 @@ class Handler
         if (!is_callable($callback)) {
             throw new \InvalidArgumentException('Request callback should be callable');
         }
-        $this->requests[implode('', $this->group) . $path] = $callback;
+        $this->requests[implode('', $this->group) . $path] = [
+            'middleware' => $this->middleware,
+            'callback' => $callback
+        ];
     }
 
     /**
@@ -54,9 +80,18 @@ class Handler
         if (!isset($this->requests[$uri])) {
             throw new \BadMethodCallException('Route behaviour is undefined');
         }
-        $behaviour = $this->requests[$uri];
+        $middleware = $this->requests[$uri]['middleware'];
+        if ($middleware instanceof Middleware && !$middleware->before()) {
+            return false;
+        }
+        $result = call_user_func_array(
+            $this->requests[$uri]['callback'],
+            [$parameters]
+        );
 
-        return call_user_func_array($behaviour, [$parameters]);
+        return $middleware instanceof Middleware
+            ? $middleware->after($result)
+            : $result;
     }
 
 }
