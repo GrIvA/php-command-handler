@@ -1,6 +1,6 @@
 {
-    "name": "zhikiri/ajax-handler",
-    "description": "Simple project for handler incoming AJAX requests and proceed if like most popular frameworks do",
+    "name": "zhikiri/command-handler",
+    "description": "Proceed some actions for commands and group of them",
     "license": "Apache-2.0",
     "authors": [
         {
