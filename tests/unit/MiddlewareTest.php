@@ -20,43 +20,6 @@ class MiddlewareTest extends \Codeception\TestCase\Test
     {
     }
 
-    public function testCreateMiddlewareMethod()
-    {
-        $middleware = new Middleware([], []);
-        Middleware::create('test', function () {});
-
-        // Test if middleware was set correctly
-        $this->assertEquals(
-            ['test' => function () {}],
-            $this->getPropertyByName('middleware')->getValue($middleware)
-        );
-
-        // Test if there is error in case of bad second argument type
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'Middleware should be callable'
-        );
-        Middleware::create('test', 1    );
-    }
-
-    public function testRetrieveMiddlewareMethod()
-    {
-        $middleware = new Middleware([], []);
-        Middleware::create('test', function () { return 1; });
-
-        // Test if middleware was set correctly
-        $this->assertEquals(
-            ['test' => function () { return 1; }],
-            $this->getPropertyByName('middleware')->getValue($middleware)
-        );
-
-        // Test fi retrieved function is correct
-        $function = Middleware::retrieve('test');
-        $this->assertInstanceOf('Closure', $function);
-        $this->assertEquals(1, call_user_func($function));
-
-    }
-
     public function testInstanceCreation()
     {
         $middleware = new Middleware(
