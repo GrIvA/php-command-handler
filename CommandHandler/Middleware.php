@@ -8,34 +8,35 @@ class Middleware
     private $before = [];
     private $after = [];
 
-    private static $middleware = [];
+    private $middleware = [];
 
-    /**
-     * Create new middleware
-     * @param string $name the middleware function name
-     * @param string|\Closure $middleware middleware action function
-     */
-    public static function create($name, $middleware)
+    public function __isset($property)
     {
-        $filtered = self::callbackFilter([$middleware]);
+        return isset($this->middleware[$property]);
+    }
+
+    public function __unset($property)
+    {
+        unset($this->middleware[$property]);
+    }
+
+    public function __call($property, $arguments)
+    {
+        return call_user_func_array($this->middleware[$property], $arguments);
+    }
+
+    public function __get($property)
+    {
+        return $this->middleware[$property];
+    }
+
+    public function __set($property, $value)
+    {
+        $filtered = self::callbackFilter([$value]);
         if (empty($filtered)) {
             throw new \InvalidArgumentException('Middleware should be callable');
         }
-        self::$middleware[$name] = $middleware;
-    }
-
-    /**
-     * Get middleware function content by name
-     * @param string $name middleware function alias name
-     * @return null|string|\Closure middleware action
-     */
-    public static function retrieve($name)
-    {
-        if (isset(self::$middleware[$name])) {
-            return self::$middleware[$name];
-        }
-
-        return null;
+        $this->middleware[$property] = $value;
     }
 
     /**
