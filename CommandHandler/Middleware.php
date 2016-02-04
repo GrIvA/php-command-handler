@@ -10,26 +10,54 @@ class Middleware
 
     private $middleware = [];
 
+    /**
+     * Test if current middleware exist
+     * @param string $property middleware name
+     *
+     * @return bool true in case of middleware existence
+     */
     public function __isset($property)
     {
         return isset($this->middleware[$property]);
     }
 
+    /**
+     * Remove the middleware
+     * @param string $property middleware action name
+     */
     public function __unset($property)
     {
         unset($this->middleware[$property]);
     }
 
+    /**
+     * Execute the middleware action
+     * @param string $property middleware action name
+     * @param array $arguments list of middleware parameters
+     *
+     * @return mixed middleware call result
+     */
     public function __call($property, $arguments)
     {
         return call_user_func_array($this->middleware[$property], $arguments);
     }
 
+    /**
+     * Get middleware action by name
+     * @param string $property middleware action name
+     *
+     * @return mixed middleware callable action
+     */
     public function __get($property)
     {
         return $this->middleware[$property];
     }
 
+    /**
+     * Create new middleware action
+     * @param string $property middleware action name
+     * @param mixed $value middleware callable action
+     */
     public function __set($property, $value)
     {
         $filtered = self::callbackFilter([$value]);
