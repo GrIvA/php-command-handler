@@ -54,12 +54,9 @@ $handler->middleware(
     ],
     function () {
         
-        $this-group('main', function () 
+        $this-add('command', function () 
         {
-            $this-add('command', function () 
-            {
-                // this action will execute after middleware `your_middleware`
-            });
+            // this action will execute after middleware `your_middleware`
         });
         
     },
