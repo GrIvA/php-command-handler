@@ -39,3 +39,30 @@ $handler->middleware(
     ],
 );
 </pre>
+
+Add new middleware:
+<pre>
+$middleware = new Middleware();
+$middleware->your_middleware = function () {
+    // your middleware action code here
+};
+
+$handler = new Handler();
+$handler->middleware(
+    [
+        $middleware->your_middleware
+    ],
+    function () {
+        
+        $this-group('main', function () 
+        {
+            $this-add('command', function () 
+            {
+                // this action will execute after middleware `your_middleware`
+            });
+        });
+        
+    },
+    []
+);
+</pre>
